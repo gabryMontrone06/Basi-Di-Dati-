@@ -1,0 +1,323 @@
+@@@ Definizione tabelle e riempimento
+
+create table attori(
+    id_attore integer not null,
+    nome varchar(255) not null,
+    cognome varchar(255) not null,
+    data_nascita date not null
+);
+
+INSERT INTO attori (id_attore, nome, cognome, data_nascita) VALUES 
+(1, 'Brad', 'Pitt',TO_DATE('1963-12-18','YYYY-MM-DD')), 
+(2, 'Helena', 'Bonham Carter', TO_DATE('1966-05-26', 'YYYY-MM-DD')), 
+(3, 'Leonardo', 'Di Caprio', TO_DATE('1974-11-11', 'YYYY-MM-DD')), 
+(4, 'Kate', 'Winslet', TO_DATE('1975-10-05', 'YYYY-MM-DD')), 
+(5, 'Colin', 'Firth', TO_DATE('1960-09-10', 'YYYY-MM-DD')), 
+(6, 'Robert Sean', 'Leonard', TO_DATE('1969-02-28', 'YYYY-MM-DD')), 
+(7, 'Robin', 'Williams', TO_DATE('1951-07-21', 'YYYY-MM-DD')), 
+(8, 'Benedict', 'Cumberbatch', TO_DATE('1976-07-19', 'YYYY-MM-DD')), 
+(9, 'Keira', 'Knightley', TO_DATE('1985-03-26', 'YYYY-MM-DD')), 
+(10, 'Will', 'Smith', TO_DATE('1968-09-25', 'YYYY-MM-DD')), 
+(11, 'Jaden', 'Smith', TO_DATE('1998-07-08', 'YYYY-MM-DD')), 
+(12, 'Sandra', 'Bullock', TO_DATE('1964-07-26', 'YYYY-MM-DD')), 
+(13, 'Ryan', 'Reynolds', TO_DATE('1976-10-23', 'YYYY-MM-DD')), 
+(14, 'Linda', 'Blair', TO_DATE('1959-01-22', 'YYYY-MM-DD')), 
+(15, 'Jason', 'Miller', TO_DATE('1939-04-22', 'YYYY-MM-DD')), 
+(16, 'Bradley', 'Cooper', TO_DATE('1975-01-05', 'YYYY-MM-DD')), 
+(17, 'Ed', 'Helms', TO_DATE('1974-01-24', 'YYYY-MM-DD')), 
+(18, 'Elijah', 'Wood', TO_DATE('1981-01-28', 'YYYY-MM-DD')), 
+(19, 'Cate', 'Blanchett', TO_DATE('1969-05-14', 'YYYY-MM-DD')), 
+(20, 'Matthew', 'McConaughey', TO_DATE('1969-11-04', 'YYYY-MM-DD')), 
+(21, 'Anne', 'Hathaway', TO_DATE('1982-11-12', 'YYYY-MM-DD')), 
+(22, 'Terence', 'Hill', TO_DATE('1939-03-29', 'YYYY-MM-DD')), 
+(23, 'Bud', 'Spencer', TO_DATE('1929-10-31', 'YYYY-MM-DD')), 
+(24, 'Lady', 'Gaga', TO_DATE('1986-03-28', 'YYYY-MM-DD')), 
+(25, 'Adam', 'Driver', TO_DATE('1983-11-19', 'YYYY-MM-DD'));
+
+
+create table film(
+    id_film integer not null,
+    nome varchar (255) not null,
+    trama varchar(4000) default null,
+    durata interal day to second not null,
+    data_uscita date not null,
+    id_genere integer default null
+);
+
+
+INSERT INTO film (id_film, nome, trama, durata, data_uscita, id_genere) VALUES 
+(1, 'Fight Club', 'Tyler Durden ed un nuovo amico sfogano la loro aggressività creando un club di combattimento, che 
+assume rapidamente connotati rivoluzionari, fino a esporre la vera identità di Tyler Durden.', INTERVAL '2:19:00' HOUR 
+TO SECOND, TO_DATE('1999-10-15', 'YYYY-MM-DD'), 1), 
+(2, 'Titanic', 'Il transatlantico Titanic, considerato un gioiello tecnologico ed il più lussuoso piroscafo da crociera mai 
+realizzato, salpa dall''Inghilterra il dieci aprile del 1912 con oltre 1500 passeggeri a bordo per il suo viaggio inaugurale. I 
+viaggiatori sono collocati in tre classi, riflesso delle differenze sociali.', INTERVAL '3:47:00' HOUR TO SECOND, 
+TO_DATE('1998-01-16', 'YYYY-MM-DD'), 2), 
+(3, 'Il discorso del re', 'Dopo la morte del padre e l''abdicazione del fratello Edoardo VIII, Bertie, che soffre da tutta la vita 
+di balbuzie, viene incoronato re con il nome di Giorgio VI d''Inghilterra. La sua fida, ora, è quella di affrontare un 
+importante discorso pubblico.', INTERVAL '1:58:00' HOUR TO SECOND, TO_DATE('2011-01-28', 'YYYY-MM-DD'), 3), 
+(4, 'L''attimo fuggente', 'Un insegnante di un liceo per classi abbienti del New England utilizza metodi non convenzionali 
+per esortare i suoi studenti, sotto pressione dai genitori e dalla scuola, alla libertà e creatività.', INTERVAL '2:08:00' 
+HOUR TO SECOND, TO_DATE('1989-09-29', 'YYYY-MM-DD'), 2), 
+(5, 'Inside out', 'Riley è costretta a lasciare la propria vita nel Midwest quando il padre si trasferisce per lavoro a San 
+Francisco. La piccola è guidata dalle proprie emozioni: Gioia, Paura, Rabbia, Disgusto e Tristezza, che vivono nel 
+Quartier Generale, il centro di controllo nella mente, da dove l''aiutano a affrontare la vita di tutti i giorni.', INTERVAL 
+'1:35:00' HOUR TO SECOND, TO_DATE('2015-09-16', 'YYYY-MM-DD'), 4), 
+(6, 'Il re leone', 'In seguito alla morte del padre, il cucciolo di leone Simba deve combattere il malvagio zio Scar che cerca 
+di rubargli il trono di re della giungla. In suo aiuto ci sono due simpatici compagni, Timon e Pumbaa.', INTERVAL 
+'1:29:00' HOUR TO SECOND, TO_DATE('1994-11-23', 'YYYY-MM-DD'), 4), 
+(7, 'The imitation game', 'La vita del matematico inglese Alan Turing, genio indiscusso del XX secolo, considerato uno 
+dei padri dell''informatica e dei moderni computer, fino alla sua precoce e tragica scomparsa.', INTERVAL '1:54:00' 
+HOUR TO SECOND, TO_DATE('2014-09-28', 'YYYY-MM-DD'), 2),(8, 'La ricerca della felicità', 'Chris Gardner è un 
+genitore single che lotta per crescere il figlio e cercare di realizzare il 
+sogno di una vita migliore e dignitosa per entrambi.', INTERVAL '1:57:00' HOUR TO SECOND, TO_DATE('2007-01-12', 
+'YYYY-MM-DD'), 2), 
+(9, 'Love actually', 'Nella città di Londra le storie di nove personaggi si intrecciano per raccontare la complessità dei 
+rapporti umani e dell''amore.', INTERVAL '2:09:00' HOUR TO SECOND, TO_DATE('2003-11-14', 'YYYY-MM-DD'), 5), 
+(10, 'Ricatto d''amore', 'Di fronte alla minaccia di deportazione dal Canada, un''editrice di successo finge di essere 
+fidanzata con il proprio assistente, lo stesso uomo che ha tormentato per anni.', INTERVAL '1:48:00' HOUR TO 
+SECOND, TO_DATE('2009-09-03', 'YYYY-MM-DD'), 5), 
+(11, 'L''esorcista', 'Regan McNeil, una ragazzina di 12 anni, viene posseduta dal demonio. Un giovane prete in crisi di 
+fede, aiutato dal proprio anziano mentore, affronta la presenza demoniaca in un mortale duello.', INTERVAL '2:12:00' 
+HOUR TO SECOND, TO_DATE('1974-10-04', 'YYYY-MM-DD'), 6), 
+(12, 'Una notte da leoni', 'Arrivato a Las Vegas per festeggiare l''addio al celibato del loro amico Doug, durante la notte il 
+gruppetto si dà alla pazza gioia prendendo una sbornia colossale. Al risveglio, però, qualcosa non va.', INTERVAL 
+'1:40:00' HOUR TO SECOND, TO_DATE('2009-06-19', 'YYYY-MM-DD'), 7), 
+(13, 'Il signore degli anelli', 'Un giovane hobbit e un variegato gruppo, composto da umani, un nano, un elfo e altri hobbit, 
+partono per un delicata missione, guidati dal potente mago Gandalf. Devono distruggere un anello magico e sconfiggere 
+così il malvagio Sauron.', INTERVAL '2:58:00' HOUR TO SECOND, TO_DATE('2002-01-18', 'YYYY-MM-DD'), 8), 
+(14, 'Interstellar', 'In un futuro non precisato, un drastico cambiamento climatico colpisce duramente l''agricoltura. Il 
+granturco è l''unica coltivazione ancora in grado di crescere ed un gruppo di scienziati è intenzionato ad attraversare lo 
+spazio per trovare nuovi luoghi adatti a coltivarlo.', INTERVAL '2:49:00' HOUR TO SECOND, TO_DATE('2014-10-26', 
+'YYYY-MM-DD'), 10), 
+(15, 'Lo chiamavano Trinità', 'Un pistolero buono e pigro, giunge in una cittadina dove ritrova suo fratello sotto le mentite 
+spoglie di sceriffo, assunte per poter meglio perpetrare un furto di bestiame.', INTERVAL '1:55:00' HOUR TO SECOND, 
+TO_DATE('1970-12-22', 'YYYY-MM-DD'), 9), 
+(16, 'House of Gucci', 'Il difficile matrimonio e il tormentato divorzio di Patrizia e Maurizio Gucci, capo della casa di moda 
+Gucci, porta ad un efferato omicidio.', INTERVAL '2:37:00' HOUR TO SECOND, TO_DATE('2021-11-24', 'YYYY-MM- 
+DD'), 11), 
+(17, 'Frozen', 'Il regno di ghiaccio', INTERVAL '1:32:00' HOUR TO SECOND, TO_DATE('2013-12-12', 'YYYY-MM-DD'), 
+4), 
+(19, 'Il padrino', NULL, INTERVAL '2:55:00' HOUR TO SECOND, TO_DATE('1972-09-21', 'YYYY-MM-DD'), NULL), 
+(20, 'Top Gun', NULL, INTERVAL '1:50:00' HOUR TO SECOND, TO_DATE('1986-09-25', 'YYYY-MM-DD'), NULL);
+
+
+
+create table generi (
+    id_genere integer not null,
+    nome varchar(255) not null,
+    descrizione varchar(4000) not null
+);
+
+INSERT INTO generi (id_genere, nome, descrizione) VALUES 
+(1, 'Thriller', 'Il thriller (dall''inglese to thrill, rabbrividire) è un genere di fiction che utilizza la suspense, la tensione e 
+l''eccitazione come elementi principali della trama.'), 
+(2, 'Drammatico', 'Un film drammatico è un genere di film che si basa sullo sviluppo dei personaggi, dell''interazione tra 
+essi e che tratta temi di impatto emotivo. Gone With The Wind è un dramma romantico. La definizione del genere è 
+complessa e non ne esiste una universalmente condivisa, né dal punto di vista stilistico né tematico.'), 
+(3, 'Storico', 'Un film storico è un film in costume che tratta vicende reali, veramente o almeno verosimilmente avvenute 
+nel passato e comunque ambientate in un preciso contesto storico, ricostruito nei dettagli in modo da apparire credibile 
+allo spettatore.'), 
+(4, 'Animazione', 'Per cinema d''animazione s''intende pertanto quel particolare cinema che viene realizzato non 
+attraverso la riproduzione fotografica della realtà, ma producendo una nuova realtà inventata, ottenuta dalla 
+scomposizione e dalla ricomposizione del movimento delle figure.'), 
+(5, 'Romantico', 'Il film sentimentale mette la storia d''amore o la ricerca dell''amore al centro della trama principale. 
+Occasionalmente, gli amanti devono affrontare ostacoli come problemi finanziari, malattie, varie forme di 
+discriminazione, vincoli psicologici o familiari che minacciano di rompere la loro unione.'), 
+(6, 'Horror', 'Il cinema dell''orrore o cinema horror è un genere cinematografico caratterizzato da personaggi immaginari e 
+mostruosi, situazioni macabre, irrazionali o di origine soprannaturale e con atmosfere da brivido.'), 
+(7, 'Comico', 'Partiamo dalle basi, il film comico è un genere di pellicola incentrato sull''innescare nello spettatore il 
+meccanismo del riso e instillare un buonumore generalizzato. Per fare questo vengono adottate diverse tecniche, dal 
+linguaggio umoristico alle gag divertenti, sino alle situazioni squisitamente paradossali.'), 
+(8, 'Fantasy', 'Genere di film che racconta una storia con elementi fantastici, surreali o fiabeschi: creature immaginarie, 
+vicende al limite o oltre la realtà, incantesimi e magie, viaggi in dimensioni ultraterrene.'), 
+(9, 'Western', 'Genere cinematografico d''avventura che, attraverso le vicende di pionieri, cowboy e fuorilegge, affronta il 
+tema della ''frontiera'' all''epoca della colonizzazione delle regioni occidentali (West) degli USA. Nato agli albori del 
+cinema (il primo esempio può essere considerato L''assalto al treno, 1903, di Edwin S.'), 
+(10, 'Fantascienza', 'Solitamente questo genere di film viene ambientato in un contesto legato a una visione più o meno 
+lontana del futuro, come quello dei viaggi interstellari, quello del contatto con entità extraterrestri, quello dei conflitti 
+nucleari o delle catastrofi climatiche globali.'), 
+(11, 'Biografico', 'Detto anche biopic (biographical picture), comprende quei film che rievocano la vita di personaggi 
+realmente vissuti, rielaborandola in modo più o meno romanzesco.');
+
+
+
+@@@ Definizioni vincoli 
+@Chiavi primarie 
+alter table attori
+add constraint pk_attori primary key (id_attore);
+
+alter table film
+add constraint pk_film primary key (id_film);
+
+alter table generi 
+add constraint pk_generi primary key (id_genere)
+
+@Chiave esterna 
+alter table film 
+add constraint film_fk_1 foreign key (id_genere) references generi(id_genere);
+
+@@@ Definizione tabella recitare con vincoli e riempimento
+
+create table recitare(
+    id_attore number(20) not null,
+    id_film number(20) not null,
+    ruolo varchar(255),
+    constraint pk_recitare primary key (id_attore, id_film),
+    contraint fk_recitare_attore foreign key (id_attore) references attori (id_attore),
+    constraint fk_recitare_film foreign key (id_film) references film (id_film)
+)
+
+INSERT INTO recitare (id_attore, id_film, ruolo) VALUES 
+(1, 1, 'Protagonista'), 
+(2, 1, 'Non protagonista'), 
+(2, 3, 'Non protagonista'), 
+(3, 2, 'Protagonista'), 
+(4, 2, 'Protagonista'), 
+(5, 3, 'Protagonista'), 
+(5, 9, 'Non protagonista'), 
+(6, 4, 'Non protagonista'), 
+(7, 4, 'Protagonista'), 
+(8, 7, 'Protagonista'), 
+(9, 7, 'Non protagonista'), 
+(9, 9, 'Non protagonista'), 
+(10, 8, 'Protagonista'), 
+(11, 8, 'Non protagonista'), 
+(12, 10, 'Protagonista'), 
+(13, 10, 'Protagonista'), 
+(14, 11, 'Protagonista'), 
+(15, 11, 'Non protagonista'), 
+(16, 12, 'Protagonista'), 
+(17, 12, 'Protagonista'), 
+(18, 13, 'Protagonista'), 
+(19, 13, 'Non protagonista'), 
+(20, 14, 'Protagonista'), 
+(21, 14, 'Non protagonista'), 
+(22, 15, 'Protagonista'), 
+(23, 15, 'Protagonista'), 
+(24, 16, 'Protagonista'), 
+(25, 16, 'Protagonista');
+
+
+alter table recitare drop constraint fk_recitare_attore
+
+alter table recitare
+add constraint fk_recitare_attore foreign key (id_attore) references attori(id_attore) on delete cascade;
+
+alter table recitare
+drop contraint fk_recitare_film
+
+alter table recitare
+add constraint fk_recitare_film foreign key (id_film) references film (id_film) on delete cascade
+
+
+
+### Codice per costruire la base di dati completa per gli esercizi sulle query
+
+_________________________________________________________________________________________________________________________________
+
+Esercizi E1-Query semplici
+
+1. Mostrare gli identificativi dei generi senza ripetizioni 
+
+select distinct id_genere
+from film
+
+2. Mostrare la durata dei film in minuti
+
+select nome, extract(hour from durata) * 60 + extract(minute from durata) as durata_minuti
+from film
+
+3. Mostrare tutte le informazioni degli attori nati dopo il 1970 
+
+select *
+from attori
+where extract(year from data_nascita) > 1970
+
+oppure 
+select *
+from attori
+where data_nascita > date '1970-12-31'
+
+
+4. Mostrare la trama, durata e data di uscita del film "Interstellar" 
+
+select trama, durata, data_uscita
+from film
+where nome = 'Interstellar'
+
+
+5. Mostrare il nome, la durata e la data di uscita dei film con durata > 2 ore oppure usciti 
+prima del 1991 
+
+
+select nome, durata, data_uscita
+from film 
+where durata > to_dsinterval('0 02:00:00) or extract(year from data_uscita) < 1991
+
+@ to_dsinterval converte una stringa in un interval day to second, è più corretto di extract
+@ perchè extract estrae l'ora e basta, mentre in questo modo si ottiene una precisione al secondo sul confronto
+
+
+6. Mostrare il nome ed il cognome degli attori il cui cognome inizia con la lettera B 
+
+select nome, cognome
+from attori
+where cognome like 'B%'
+
+7. Mostrare l’elenco dei film senza genere assegnato
+
+select nome
+from film
+where id_genere is null
+
+@@Gli esercizi del join si possono fare in due modi:
+@@ - Aggiungere al where la condizione di join a partire dal prodotto cartesiano
+@@ - Utilizzare join e separare la condizione di join e la clausola where
+
+8. Mostrare il nome, la data di uscita e la durata dei film di genere romantico 
+
+select f.nome, f.data_uscita, f.durata
+from film f join generi g on f.id_genere = g.id_genere
+where g.nome = 'Romantico'
+
+9. Mostrare nome e cognome degli attori che hanno avuto il ruolo “Non protagonista” 
+almeno in un film (senza duplicati)  
+
+select distinct a.nome, a.cognome
+from attore a, recitare r
+where a.id_attore = r.id_attore and r.ruolo = 'Non protagonista'
+
+10. Mostrare il nome dei film e il ruolo dei film in cui ha recitato Brad Pitt 
+
+select f.nome, r.ruolo 
+from film f join attore a on f.id_attore = a.id_attore join recitare r on f.id_film = r.id_film
+where a.nome = 'Brad' and a.cognome = 'Pitt' 
+
+11. Mostrare tutti gli attori e, se presenti, i film in cui hanno recitato 
+
+select a.nome, a.cognome, f.nome
+
+
+12. Mostrare nome e cognome degli attori nati dopo il 1970 che hanno recitato come 
+"Protagonista" in film "Romantico" con durata > 1:30 e uscita dal 1990 in poi 
+
+@@ Per fare il join tra tutte le tabelle bisogna seguire un ordine, per avere la condizione di join
+
+select distinct a.nome, a.cognome 
+from attori a join recitare r on a.id_attore = r.id_attore 
+join film f on r.id_film = f.id_film
+join generi g on g.id_genere = f.id_genere
+where extract(year from a.data_nascita) > 1970 
+and r.ruolo = 'Protagonista'
+and g.nome = 'Romantico'
+and f.durata > to_dsinterval('0 01:30:00')
+and extract(year from f.data_uscita) >= 1990
+
+
+13. Mostrare nome e cognome degli attori che hanno lo stesso cognome ma nome diverso
+
+select a1.nome, a1.cognome
+from attori a1 join attori a2 on a1.cognome = a2.cognome
+where a1.nome <> a2.nome
+
