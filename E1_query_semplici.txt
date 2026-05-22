@@ -1,0 +1,125 @@
+Esercizi E1-Query semplici
+
+1. Mostrare gli identificativi dei generi senza ripetizioni 
+
+select distinct id_genere
+from film
+
+2. Mostrare la durata dei film in minuti
+
+select nome, extract(hour from durata) * 60 + extract(minute from durata) as durata_minuti
+from film
+
+3. Mostrare tutte le informazioni degli attori nati dopo il 1970 
+
+select *
+from attori
+where extract(year from data_nascita) > 1970
+
+oppure 
+select *
+from attori
+where data_nascita > date '1970-12-31'
+
+
+4. Mostrare la trama, durata e data di uscita del film "Interstellar" 
+
+select trama, durata, data_uscita
+from film
+where nome = 'Interstellar'
+
+
+5. Mostrare il nome, la durata e la data di uscita dei film con durata > 2 ore oppure usciti 
+prima del 1991 
+
+
+select nome, durata, data_uscita
+from film 
+where durata > to_dsinterval('0 02:00:00) or extract(year from data_uscita) < 1991
+
+@ to_dsinterval converte una stringa in un interval day to second, è più corretto di extract
+@ perchè extract estrae l'ora e basta, mentre in questo modo si ottiene una precisione al secondo sul confronto
+
+
+6. Mostrare il nome ed il cognome degli attori il cui cognome inizia con la lettera B 
+
+select nome, cognome
+from attori
+where cognome like 'B%'
+
+7. Mostrare l’elenco dei film senza genere assegnato
+
+select nome
+from film
+where id_genere is null
+
+@@Gli esercizi del join si possono fare in due modi:
+@@ - Aggiungere al where la condizione di join a partire dal prodotto cartesiano
+@@ - Utilizzare join e separare la condizione di join e la clausola where
+
+8. Mostrare il nome, la data di uscita e la durata dei film di genere romantico 
+
+select f.nome, f.data_uscita, f.durata
+from film f join generi g on f.id_genere = g.id_genere
+where g.nome = 'Romantico'
+
+9. Mostrare nome e cognome degli attori che hanno avuto il ruolo “Non protagonista” 
+almeno in un film (senza duplicati)  
+
+select distinct a.nome, a.cognome
+from attore a, recitare r
+where a.id_attore = r.id_attore and r.ruolo = 'Non protagonista'
+
+10. Mostrare il nome dei film e il ruolo dei film in cui ha recitato Brad Pitt 
+
+select f.nome, r.ruolo 
+from film f join attore a on f.id_attore = a.id_attore join recitare r on f.id_film = r.id_film
+where a.nome = 'Brad' and a.cognome = 'Pitt' 
+
+11. Mostrare tutti gli attori e, se presenti, i film in cui hanno recitato 
+
+select a.nome, a.cognome, f.nome
+
+
+12. Mostrare nome e cognome degli attori nati dopo il 1970 che hanno recitato come 
+"Protagonista" in film "Romantico" con durata > 1:30 e uscita dal 1990 in poi 
+
+@@ Per fare il join tra tutte le tabelle bisogna seguire un ordine, per avere la condizione di join
+
+select distinct a.nome, a.cognome 
+from attori a join recitare r on a.id_attore = r.id_attore 
+join film f on r.id_film = f.id_film
+join generi g on g.id_genere = f.id_genere
+where extract(year from a.data_nascita) > 1970 
+and r.ruolo = 'Protagonista'
+and g.nome = 'Romantico'
+and f.durata > to_dsinterval('0 01:30:00')
+and extract(year from f.data_uscita) >= 1990
+
+
+13. Mostrare nome e cognome degli attori che hanno lo stesso cognome ma nome diverso
+
+select a1.nome, a1.cognome
+from attori a1 join attori a2 on a1.cognome = a2.cognome
+where a1.nome <> a2.nome
+
+
+14. Mostrare il numero di film per genere 
+
+select g.nome, count(*)
+from film f join genere g on f.id_genere = g.id_genere
+group by g.nome
+
+15. Mostrare il codice, il nome ed il cognome degli attori che hanno recitato in più di un film
+
+select a.id_attore, a.nome, a.cognome, count(*)
+from film f join attori a on f.id_attore = a.id_attore
+group by a.id_attore, a.nome, a.cognome
+having count(*) > 1 
+
+
+16. Mostrare la durata massima dei film per ogni genere 
+
+select g.nome, max(f.durata) 
+from film f join generi g on f.id_genere = g.id_genere
+group by g.nome
