@@ -123,3 +123,4 @@ having count(*) > 1
 select g.nome, max(f.durata) 
 from film f join generi g on f.id_genere = g.id_genere
 group by g.nome
+order by max(f.durata) desc
