@@ -1,0 +1,57 @@
+SCHEMA DELLA BASE DI DATI
+
+attori (id_attore, nome, cognome, data_nascita) 
+film (id_film, nome, trama, durata, data_uscita, id_genere*) 
+generi (id_genere, nome, descrizione) 
+recitare (id_attore, id_film, ruolo) 
+
+
+CLAUSOLE IN E NOT IN 
+1. Mostrare gli attori che hanno recitato almeno in un film di genere “Comico” 
+    1.1 Genere Comico
+    1.2 Film con genere Comico
+    1.3 Attori che hanno recitato in film Comico
+    1.4 Nome e congome attore    
+
+
+select nome, cognome
+from attori
+where id_attore in (select id_attore
+                    from recitare 
+                    where id_film in (select id_film
+                                        from film 
+                                        where id_genere in (select id_genere
+                                                            from generi
+                                                            where nome = 'Comico')))
+
+
+2. Mostrare i film in cui recita almeno un attore nato dopo il 1980 
+
+select nome
+from film
+where id_film in
+(select id_film from recitare where id_attore in
+(select id_attore from attori where 1980 > extract(year from data_nascita)))
+
+
+3. Mostrare i film in cui recita almeno un attore con cognome che inizia per “B” 
+4. Mostrare gli attori che non hanno mai recitato in film del genere “Horror” 
+5. Mostrare i generi che non hanno film con protagonisti 
+6. Mostrare il codice, il nome ed il cognome degli attori che hanno recitato in più di un film 
+
+
+CLAUSOLE ALL E ANY 
+7. Mostrare i film con durata maggiore di tutti i film di genere “Animazione” 
+8. Mostrare i film con durata inferiore ad almeno uno dei film del genere “Thriller” 
+9. Mostrare gli attori più giovani di almeno un attore che ha recitato in Titanic 
+10. Mostrare gli attori più giovani di tutti gli attori che hanno recitato in Titanic 
+11. Mostrare i film più lunghi della durata media di almeno un genere 
+12. Mostrare gli attori nati dopo tutti gli anni medi di nascita degli attori raggruppati per ruolo 
+CLAUSOLE EXISTS E NOT EXISTS 
+13. Mostrare gli attori che hanno almeno un ruolo in un film 
+14. Mostrare i film che non hanno attori associati 
+15. Mostrare i film in cui non recita nessun attore con cognome che inizia per B 
+16. Mostrare gli attori che hanno recitato in tutti i film del genere “Storico” 
+CONDIZIONE DI CORRELAZIONE 
+17. Mostrare i film più lunghi della durata media dei film dello stesso genere 
+18. Mostrare i film con numero di attori minore alla media dei cast

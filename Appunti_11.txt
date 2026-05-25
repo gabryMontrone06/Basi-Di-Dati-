@@ -1,0 +1,48 @@
+Query nidificate
+
+Query 1
+select fy.codf
+from f fx, f fy
+where fx.sede = fy.sede and fx.codf = 'f1'
+
+Per risolvere questo esercizio si possono usare le query nidificate
+
+select codf 
+from f
+where sede = (select sede
+            from f
+            where codf = 'f1')
+
+
+
+Query 3
+
+select nomef
+from f
+where codf in(select codf
+            from fp
+            where codp = 'P2')
+
+Query 4
+
+
+select nomef
+from f 
+where codf in (select codf
+                from fp
+                where codp in (select codp
+                                from p
+                                where colore = 'Rosso'))
+
+Query 7
+
+####
+
+
+select codp, max(qta)
+from fp
+group by codp
+
+
+
+
