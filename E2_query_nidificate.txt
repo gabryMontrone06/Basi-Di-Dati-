@@ -35,21 +35,145 @@ where id_film in
 
 
 3. Mostrare i film in cui recita almeno un attore con cognome che inizia per “B” 
-4. Mostrare gli attori che non hanno mai recitato in film del genere “Horror” 
+
+select nome
+from film
+where id_film in
+(select id_film from recitare where id_attore in
+(select id_attore from attori where cognome like 'B%'))
+
+
+4. Mostrare gli attori che non hanno mai recitato in film del genere “Horror”
+
+N.B. Non serve il join perchè gli attori che non hanno recitato in nessun film, non hanno recitato in film di genere horror
+quindi li devo considerare.
+
+
+
+select nome, cognome
+from attori
+where id_attore not in
+(select id_attore from recitare where id_film in
+(select id_film from film where id_genere in
+(select id_genere from generi where nome = 'Horror')))
+
+
 5. Mostrare i generi che non hanno film con protagonisti 
+
+select nome
+from generi
+where id_genere not in
+(select id_genere from film where id_film in
+(select id_film from recitare where ruolo = 'Protagonista')) 
+
 6. Mostrare il codice, il nome ed il cognome degli attori che hanno recitato in più di un film 
+
+N.B. In questo caso la soluzione è equivalente alla soluzione con il join, però con le subquery non si può prendere
+il numero di film, in quanto non c'è modo di passare dei dati dalla subquery alla query più esterna.
+select nome,cognome, id_attore
+from attori
+where id_attore in
+(select id_attore from recitare group by id_attore having count(*)>1)
+
 
 
 CLAUSOLE ALL E ANY 
 7. Mostrare i film con durata maggiore di tutti i film di genere “Animazione” 
+
+Sol. alternativa: > max
+
+select nome
+from film
+where durata > all 
+(select durata from film where id_genere = 
+(select id_genere from generi where nome = 'Animazione'))
+
+
 8. Mostrare i film con durata inferiore ad almeno uno dei film del genere “Thriller” 
+
+select nome
+from film
+where durata < any  
+(select durata from film where id_genere =
+(select id_genere from generi where nome = 'Thriller'))
+
 9. Mostrare gli attori più giovani di almeno un attore che ha recitato in Titanic 
+
+select nome, cognome, data_nascita
+from attori
+where data_nascita > any(
+    select data_nascita
+    from attori a join recitare r a.id_attore = r.id_attore
+    where r.id_film in(
+        select id_film
+        from film 
+        where nome='Titanic'
+    )
+)
+
+
 10. Mostrare gli attori più giovani di tutti gli attori che hanno recitato in Titanic 
+
+select nome, cognome, data_nascita
+from attori
+where data_nascita > all(
+    select data_nascita
+    from attori a join recitare r a.id_attore = r.id_attore
+    where r.id_film in(
+        select id_film
+        from film 
+        where nome='Titanic'
+    )
+)
+
+
 11. Mostrare i film più lunghi della durata media di almeno un genere 
-12. Mostrare gli attori nati dopo tutti gli anni medi di nascita degli attori raggruppati per ruolo 
+
+select nome, durata
+from film
+where durata > any (
+    select avg(durata)
+    from film 
+    group by id_genere
+    where id_genere is not null
+)
+
+
+12. Mostrare gli attori nati dopo tutti gli anni medi di nascita degli attori raggruppati per ruolo
+
+select nome, cognome, data_nascita
+from attori
+where extract(year from data_nascita) > all(
+    select avg(extract(year from a.data_nascita))
+    from recitare r join attori a on a.id_attore = r.id_attore 
+    group by r.ruolo
+)
+
 CLAUSOLE EXISTS E NOT EXISTS 
 13. Mostrare gli attori che hanno almeno un ruolo in un film 
+
+select nome, cognome 
+from attori a
+where exists (
+    select *
+    from recitare r
+    where r.id_attore = a.id_attore 
+)
+
+
 14. Mostrare i film che non hanno attori associati 
+
+select nome
+from film f 
+where not exists(
+    select *
+    from recitare r
+    where r.id_attore = f.id_attore
+)
+
+
+
+
 15. Mostrare i film in cui non recita nessun attore con cognome che inizia per B 
 16. Mostrare gli attori che hanno recitato in tutti i film del genere “Storico” 
 CONDIZIONE DI CORRELAZIONE 

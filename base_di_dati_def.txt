@@ -211,6 +211,9 @@ alter table recitare
 add constraint fk_recitare_film foreign key (id_film) references film (id_film) on delete cascade
 
 
+INSERT INTO attori (id_attore, nome, cognome, data_nascita) VALUES 
+(30, 'Tom', 'Holland', TO_DATE('1996-06-01', 'YYYY-MM-DD')); 
+
 
 ### Codice per costruire la base di dati completa per gli esercizi sulle query
 
