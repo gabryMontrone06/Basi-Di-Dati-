@@ -1,0 +1,3 @@
+ASSERZIONI
+
+Sono vincoli che riguardano l'intero schema

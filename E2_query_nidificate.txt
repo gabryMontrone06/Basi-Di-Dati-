@@ -171,11 +171,76 @@ where not exists(
     where r.id_attore = f.id_attore
 )
 
-
-
-
 15. Mostrare i film in cui non recita nessun attore con cognome che inizia per B 
+
+METODO 1
+select nome
+from film 
+where id_film not in(
+    select r.id_film
+    from recitare r join attori a on a.id_attore = r.id_attore
+    where a.cognome like 'B%'
+)
+
+METODO 2
+select nome 
+from film f
+where not exists(
+    select *
+    from recitare r join attori a on a.id_attore = r.id_attore
+    where a.cognome like 'B%' and f.id_film = r.id_film
+)
+
+!!! Studia query corrispondenti
+
 16. Mostrare gli attori che hanno recitato in tutti i film del genere “Storico” 
+-- Trovare gli attori per cui non esiste alcun film di genere 'Storico' in cui gli attori non hanno recitato
+
+select a.nome, a.cognome
+from attori a
+where not exists(
+    select  *
+    from film f
+    where f.id_film not in(
+        select r.id_film
+        from recitare r
+        where r.id_attore = a.id_attore
+    ) and f.id_genere = (
+        select id_genere
+        from generi
+        where nome = 'Storico'
+    )
+)
+
 CONDIZIONE DI CORRELAZIONE 
 17. Mostrare i film più lunghi della durata media dei film dello stesso genere 
+
+select f.nome, f.durata
+from film f
+where durata > (
+    select avg(durata)
+    from film f1
+    where f.id_genere = f1.id_genere
+)
+
 18. Mostrare i film con numero di attori minore alla media dei cast
+
+
+select f.nome
+from film f
+where (
+    select count(*)
+    from recitare r
+    where f.id_film = r.id_film) < 
+(
+    select avg(count(*))
+    from recitare
+    group by id_film
+)
+
+
+
+
+
+
+
