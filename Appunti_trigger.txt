@@ -1,0 +1,86 @@
+TRIGGER 1: Creare una regola che riduca del 10% lo stipendio mensile di 
+tutti gli impiegati quando la media dei salari mensili supera i 2500 euro.
+
+
+IMPIEGATO(Matricola , Nome, Cognome, Qualifica, Stip_Mensile, Extra_Mensile, Data_Assunz, Codice)
+DIPARTIMENTO(Codice, Nome_Dip, Ateneo, Città)
+
+
+create trigger ControlloStipendio
+after insert or delete or update
+on IMPIEGATO
+begin
+    update impiegato
+    set Stip_Mensile = 0.9*Stip_Mensile
+    where (select avg(Stip_Mensile) from impiegato) > 2500
+end
+
+
+TRIGGER 2:Creare una regola che reagisca alla cancellazione di un dipartimento 
+ponendo a NULL il valore del campo codice dipartimento nella tabella Impiegato.
+
+create trigger CancellaDip
+after delete
+on dipartimento 
+for each row
+begin
+    update impiegato
+    set codice = NULL
+    where codice = old.codice
+end
+
+
+TRIGGER 3: Creare una regola che impedisca gli aggiornamenti nella tabella 
+Impiegato per cui sia prevista una riduzione degli stipendi. Generare una eccezione 
+per le operazioni non ammesse.
+
+
+create trigger CheckStipendio
+before update
+on impiegato
+for each row
+when new.Stip_Mensile < old.Stip_Mensile
+begin 
+    raise exception 'Valore di stipendio non ammesso!'
+end
+
+
+TRIGGER 4: Creare una regola che aggiorni la quantità totale ordinata per ogni nuovo 
+ordine.
+
+
+ORDINE (CodProdotto, CodFornitore, Data, Quantità) 
+TOTALE (CodProdotto, CodFornitore, qTot)
+
+create trigger AggiornaTot
+after insert
+on ordine
+for each row
+begin
+    update totale
+    set qTot = qTot + new.Quantità
+    where CodProdotto = new.CodProdotto and CodFornitore = new.CodFornitore
+end
+
+
+TRIGGER 5: Creare una regola che memorizzi necessariamente tutte le modifiche della valutazione di un 
+libro nella tabella di audit ma solo nel caso in cui si verifichi una riduzione del valore della valutazione.
+
+LIBRO (ISBN, Titolo, Editore, Categoria, Valutazione) 
+GIUDIZIO (ISBN, TimeStamp, NuovaVal, VecchiaVal)
+
+
+create trigger AggiornaValutazione
+after update
+on libro
+for each row
+when new.valutazione < old.valutazione
+begin
+    insert into giudizio 
+    values (new.isbn, current_timestamp(), new.valutazione, old.valutazione)
+end
+
+
+
+
+
