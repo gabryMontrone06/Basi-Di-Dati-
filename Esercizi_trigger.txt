@@ -1,0 +1,82 @@
+ES. 1
+
+Interpreta(codFilm, codAttore, compenso, ruolo)
+Max_Attore(codAttore, maxCompenso)
+
+
+create trigger NuovoCompenso
+after insert on Interpreta
+for each row
+begin
+    update Max_Attore
+    set maxCompenso = new.compenso
+end
+
+
+
+ES. 2
+
+Film(codFilm, titolo, anno, genere, durata, incasso, voto)
+Top_Film(codFilm, dataAggiornamento, voto) 
+
+Dopo ogni aggiornamento nella tabella Film, applicare le seguenti regole:
+(i) se il voto aggiornamto è >= 8, i dati saranno riportati anche in Top_Film
+(ii) se il voto aggiornato è < 8, tutte le tuple corrispondenti al film saranno cancellate
+
+
+
+create trigger check_Film
+after update on Film
+for each row
+begin 
+    if (new.voto >= 8) then 
+        insert into Top_Film
+        values (new.codFilm, current_date(), new.voto)
+    else 
+        delete from Top_Film
+        where codFilm = new.codFilm
+    end if
+end
+
+ES. 3
+
+Film(codFilm, titolo, anno, genere, durata, incasso, voto)
+Attore(codAttore, nome, cognome, nazionalità)
+Interpreta(codFilm, codAttore, compenso, ruolo)
+
+
+create trigger check_incasso
+after update on Film
+for each row
+when new.incasso >= old.incasso*1.1
+begin
+    update Interpreta
+    set compenso = compenso + 1000
+    where codFilm = new.codFilm
+end
+
+ES. 4
+
+Film(codFilm, titolo, anno, genere, durata, incasso, voto)
+Attore(codAttore, nome, cognome, nazionalità)
+Interpreta(codFilm, codAttore, compenso, ruolo)
+
+
+create trigger delete_film
+before delete on Film
+for each row 
+declare
+    conta integer 
+begin
+    select count(*) into conta
+    from Interpreta
+    where codFilm = old.codFilm
+
+    if (conta > 0) then
+        delete from Interpreta
+        where codFilm = old.codFilm
+    end if
+end
+
+
+
