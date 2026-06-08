@@ -10,6 +10,7 @@ for each row
 begin
     update Max_Attore
     set maxCompenso = new.compenso
+    where codAttore = new.codAttore and new.compenso > maxCompenso
 end
 
 
