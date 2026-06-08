@@ -79,5 +79,25 @@ begin
     end if
 end
 
+ES. 5
+
+Camera(codCamera, costoTotale)
+Spese_Extra(codCamera, data, ora, descrizione, costo)
+
+create trigger update_costo
+after insert on Spese_Extra
+for each row
+begin
+    update Camera
+    set costoTotale = costoTotale + new.costo
+    where codCamera = new.codCamera
+end
 
 
+ES. 6
+
+Esame(codEsame, votoMedio)
+Studente_Esame(matricola, codEsame, data, voto)
+
+create trigger verbalizzazione
+after insert 
