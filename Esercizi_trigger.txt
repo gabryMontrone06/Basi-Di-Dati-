@@ -100,4 +100,14 @@ Esame(codEsame, votoMedio)
 Studente_Esame(matricola, codEsame, data, voto)
 
 create trigger verbalizzazione
-after insert 
+after insert on Studente_Esame
+for each row
+begin 
+    update Esame
+    set votoMedio = (
+        select avg(voto)
+        from Studente_Esame
+        where codEsame = new.codEsame
+    )
+    where codEsame = new.codEsame
+end
